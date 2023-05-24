@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de manejo de empleados</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <!-- Brand -->
+    <a class="navbar-brand" href="#">Sistema de manejo de empleados</a>
+
+    <!-- Toggler/Collapse Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/empleados/new}">Manejo Empleados</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+            <h1 class = "text-center"> Create New Empleado </h1>
+            <div class="card-body">
+                <form th:action="@{/empleados/new}" th:object="${empleado}" method="POST">
+                    <div class="form-group">
+                        <label>Nombre de usuario</label>
+                        <input type="text" name="usuario" th:field="*{usuario}"
+                               class="form-control"
+                               placeholder="Nombre de usuario" />
+                    </div>
+                    <div class="form-group">
+                        <label>Apellido del usuario</label>
+                        <input type="text" name="apellido" th:field="*{apellido}"
+                               class="form-control"
+                               placeholder="Apellido del usuario" />
+                    </div>
+                    <div class="form-group">
+                        <label>Oficio del usuario</label>
+                        <input type="text" name="oficio" th:field="*{oficio}"
+                               class="form-control"
+                               placeholder="Oficio del usuario" />
+                    </div>
+                    <div class="form-group">
+                        <label>Email del empleados</label>
+                        <input type="text" name="email" th:field="*{email}"
+                               class="form-control"
+                               placeholder="Enter Student Email" />
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña del empleados</label>
+                        <input type="password" name="password" th:field="*{password}"
+                               class="form-control"
+                               placeholder="Enter password" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fecha de contratacion del empleado</label>
+                        <input type="date" name="fechaContratacion" th:field="*{fechaContratacion}"
+                               class="form-control"
+                               placeholder="Enter Student Email" />
+                    </div>
+                    <div class="form-group">
+                        <label>Salario del empleado</label>
+                        <input type="number" step="0.01" name="sal" th:field="*{sal}"
+                               class="form-control"
+                               placeholder="Salario del empleado" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Courses</label>
+                        <select th:field="${empleado.departamento}" name="departamento" class="form-control" multiple="true">
+                            <option th:each="departamento :${departamentoList}" th:value="${departamento.id}" th:text="${departamento.nombre} + ' - ' + ${departamento.localidad}" ></option>
+                        </select>
+                    </div>
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
