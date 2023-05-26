@@ -4,13 +4,13 @@ import com.example.registrationlogindemo.entity.Departamento;
 import com.example.registrationlogindemo.entity.Empleado;
 import com.example.registrationlogindemo.repository.DepartamentoRepository;
 import com.example.registrationlogindemo.service.EmpleadoService;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,10 @@ public class EmpleadoController {
     @Autowired
     private DepartamentoRepository departamentoRepository;
 
+
     private List<Departamento> departamentoList = new ArrayList<>();
+
+
 
 
     public EmpleadoController(EmpleadoService empleadoService, DepartamentoRepository departamentoRepository){
@@ -35,9 +38,10 @@ public class EmpleadoController {
 
 
     @GetMapping({ "/empleados", "/empleados/"})
-    public String empleados(Model model){
+    public String empleados(Model model, HttpSession httpSession){
         model.addAttribute("empleados", empleadoService.getAllEmpleados());
-        return "empleados";
+        model.addAttribute("session", httpSession);
+        return "/empleados/empleados";
     }
     /*
     @GetMapping("/empleados")
@@ -52,13 +56,24 @@ public class EmpleadoController {
         Empleado empleado = new Empleado();
         model.addAttribute("empleado", empleado);
         model.addAttribute("departamentoList", departamentoList);
-        return "crear_empleado";
+        return "/empleados/crear_empleado";
     }
 
     @PostMapping("/empleados/new")
-    public String saveEmpleado(@ModelAttribute("empleado") Empleado empleado){
+    public String saveEmpleado(@Valid @ModelAttribute("empleado") Empleado empleado, BindingResult result, Model model){
+        Empleado existing = empleadoService.getEmpleadoByEmail(empleado.getEmail());
+        if (existing != null) {
+            result.rejectValue("email", null, "Este email ya esta registrado con una cuenta");
+        }
+        if (result.hasErrors()){
+            model.addAttribute("empleado", empleado);
+            //return "crear_empleado";
+            return "redirect:/empleados/new?error";
+        }
+
         empleadoService.saveEmpleado(empleado);
-        return "redirect:/empleados";
+        //return "redirect:/empleados";
+        return "redirect:/empleados?success";
     }
 
     @GetMapping("/empleados/edit/{id}")
@@ -67,7 +82,7 @@ public class EmpleadoController {
         model.addAttribute("empleado", empl);
         model.addAttribute("departamentoList", departamentoList);
 
-        return "edit_empleado";
+        return "/empleados/edit_empleado";
     }
 
     @PostMapping("/empleados/update/{id}")
@@ -84,12 +99,12 @@ public class EmpleadoController {
         existEmpleado.setSal(empleado.getSal());
 
         empleadoService.updateEmpleado(existEmpleado);
-        return "redirect:/empleados";
+        return "redirect:/empleados?update";
     }
 
     @GetMapping("/empleados/delete/{id}")
     public String deleteEmpleado(@PathVariable Long id){
-        empleadoService.deleteEmepleadoById(id);
+        empleadoService.deleteEmpleadoById(id);
         return "redirect:/empleados";
 
     }

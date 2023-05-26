@@ -11,5 +11,7 @@ public interface DepartamentoRepository extends JpaRepository<Departamento, Long
     List<Departamento> findByNombre(String nombre);
     List<Departamento> findByLocalidad(String localidad);
 
+    Departamento findDepartamentoByNombreAndLocalidad(String nombre, String localidad);
+
 
 }

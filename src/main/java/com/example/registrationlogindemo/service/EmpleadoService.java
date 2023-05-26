@@ -10,11 +10,12 @@ public interface EmpleadoService {
 
     List<Empleado> getAllEmpleados();
 
-    List<Empleado> getEmpleadosByUsuario(String usuario)
-            ;
+    List<Empleado> getEmpleadosByUsuario(String usuario);
+
     Empleado getEmpleadoById(Long id);
+    Empleado getEmpleadoByEmail(String email);
 
     Empleado updateEmpleado(Empleado empleado);
 
-    void deleteEmepleadoById(Long id);
+    void deleteEmpleadoById(Long id);
 }

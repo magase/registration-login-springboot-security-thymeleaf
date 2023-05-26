@@ -37,11 +37,22 @@ public class UserServiceImpl implements UserService {
         //encrypt the password once we integrate spring security
         //user.setPassword(userDto.getPassword());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setRoles(userDto.getRoles());
+        //user.setRol(userDto.getRol());
+        if (userDto.getRoles().isEmpty()){
+            Role role = roleRepository.findByName("ROLE_ADMIN");
+            role = checkRoleExist();
+            user.setRoles(List.of(role));
+
+        }
+        /*
         Role role = roleRepository.findByName("ROLE_ADMIN");
         if(role == null){
             role = checkRoleExist();
         }
-        user.setRoles(Arrays.asList(role));
+
+         */
+        //user.setRoles(Arrays.asList(role));
         userRepository.save(user);
     }
 
@@ -49,12 +60,19 @@ public class UserServiceImpl implements UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-
+/*
     @Override
     public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream().map((user) -> convertEntityToDto(user))
                 .collect(Collectors.toList());
+    }
+
+ */
+
+    @Override
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 
     private UserDto convertEntityToDto(User user){
@@ -70,5 +88,10 @@ public class UserServiceImpl implements UserService {
         Role role = new Role();
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);
+    }
+
+    @Override
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
     }
 }

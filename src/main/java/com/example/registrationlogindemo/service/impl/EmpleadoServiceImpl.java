@@ -40,12 +40,17 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     }
 
     @Override
+    public Empleado getEmpleadoByEmail(String email) {
+        return empleadoRepository.findEmpleadoByEmail(email);
+    }
+
+    @Override
     public Empleado updateEmpleado(Empleado empleado) {
         return empleadoRepository.save(empleado);
     }
 
     @Override
-    public void deleteEmepleadoById(Long id) {
+    public void deleteEmpleadoById(Long id) {
         empleadoRepository.deleteById(id);
     }
 }

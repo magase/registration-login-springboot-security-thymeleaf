@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface DepartamentoService {
 
+
+
     List<Departamento> getAllDepartamentos();
 
     List<Departamento> getDepartamentoByNombre(String nombre);
@@ -15,6 +17,8 @@ public interface DepartamentoService {
     Departamento getDepartamentoById(Long id);
 
     Departamento updateDepartamento(Departamento departamento);
+
+    Departamento getDepartamentoByNombreAndLocalidad(String nombre, String localidad);
 
     void deleteDepartamentoById(Long id);
 }

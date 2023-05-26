@@ -2,10 +2,10 @@ package com.example.registrationlogindemo.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -23,13 +23,21 @@ public class Empleado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "El nombre del usuario no puede estar vacio")
     private String usuario;
+    @NotEmpty(message = "El apellido del usuario no puede estar vacio")
     private String apellido;
+    @NotEmpty(message = "La contraseña del usuario no puede estar vacio")
     private String password;
+    @NotEmpty(message = "El oficio del usuario no puede estar vacio")
     private String oficio;
+    @NotEmpty(message = "El email del usuario no puede estar vacio")
+    @Email
     private String email;
+    //@NotEmpty(message = "La fecha de contratacion del usuario no puede estar vacio")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaContratacion;
+    //@NotEmpty(message = "El salario del usuario no puede estar vacio")
     private Float sal;
 /*
     @ManyToOne(fetch = FetchType.LAZY)

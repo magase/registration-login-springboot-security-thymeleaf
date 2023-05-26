@@ -42,6 +42,11 @@ public class DepartamentoServiceImpl implements DepartamentoService {
     }
 
     @Override
+    public Departamento getDepartamentoByNombreAndLocalidad(String nombre, String localidad) {
+        return departamentoRepository.findDepartamentoByNombreAndLocalidad(nombre, localidad);
+    }
+
+    @Override
     public void deleteDepartamentoById(Long id) {
         departamentoRepository.deleteById(id);
     }
