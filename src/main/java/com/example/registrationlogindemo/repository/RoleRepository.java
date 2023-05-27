@@ -1,6 +1,5 @@
 package com.example.registrationlogindemo.repository;
 
-import com.example.registrationlogindemo.entity.Departamento;
 import com.example.registrationlogindemo.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
